@@ -5,10 +5,8 @@ exports.bindUserWithRequest = ()=>{
         if (!req.session.isLoggedIn) {
             return next();
         }else {
-
             try {
                 let user=await User.findById(req.session.user._id);
-
                 req.user =user
                 next ()
 
@@ -16,11 +14,9 @@ exports.bindUserWithRequest = ()=>{
                 console.log(e);
                 next(e)
             }
-
         }
     }
 }
-
 
 exports.isAuthenticated = (req, res, next) =>{
     if (!req.session.isLoggedIn) {
@@ -28,8 +24,6 @@ exports.isAuthenticated = (req, res, next) =>{
     }
     next()
 } 
-
-
 
 exports.isUnAuthnticated = (req, res, next)=>{
     if(req.session.isLoggedIn) {
