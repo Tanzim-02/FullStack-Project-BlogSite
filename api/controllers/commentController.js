@@ -36,8 +36,42 @@ const commentController = async (req, res, next) => {
         console.log(e);
         return res.status(500).json({error: 'Server Error Occured'});
     }
-
-
 }
 
-module.exports = commentController;
+const replayCommentPostController = async (req, res, next) => {
+
+    let {commentId} = req.params;
+    let {body} = req.body;
+
+    if(!req.user) {
+        return res.status(401).json({error: 'You must be logged in to comment'});
+    }
+
+    let reply = {
+        body,
+        user: req.user._id
+    }
+
+    try {
+        await Comment.findOneAndUpdate(
+            {_id: commentId},
+            {$push: {"replies": reply}}
+        )
+        
+
+        return res.status(201).json({
+            ...reply,
+            profilePics: req.user.profilePics,
+            username: req.user.username
+        })
+
+    }catch(e) {
+        console.log(e);
+        return res.status(500).json({error: 'Server Error Occured'});
+    }
+}
+
+module.exports = {
+    commentController,
+    replayCommentPostController
+};
