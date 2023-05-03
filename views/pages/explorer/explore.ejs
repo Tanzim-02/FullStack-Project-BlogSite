@@ -27,8 +27,8 @@
                         </a>
                         <div class="d-flex">
                           <small>
-                            <%= moment(post.createdAt) %>,
-                            by <%= post.author.username %>
+                            <%= moment(post.createdAt) %>,Posted
+                            by <a href="/author/<%= post.author._id  %>"> <%= post.author.username %> </a> ,
                             <%= post.readTime %>
                             <% if (user) { %>
                               <span class="ml-auto bookmark" data-post="<%= post._id %>">

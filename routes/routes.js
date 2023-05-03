@@ -9,6 +9,9 @@ const apiRoute = require('../api/routes/apiRoutes');
 
 const exploreController= require('./exploreRoute');
 
+const searchRoute = require('./searchRoute');
+const authorRoute = require('./authorRoutes');
+
 const routes = [
     {
         path: '/auth',
@@ -35,9 +38,15 @@ const routes = [
     {
         path: '/explorer',
         handler: exploreController
+    }, 
+    {
+        path: '/search',
+        handler: searchRoute
     },
-
-
+    {
+        path: '/author',
+        handler: authorRoute
+    },
 
     {
         path: '/playground',
