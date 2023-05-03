@@ -16,7 +16,7 @@ router.get('/likes/:postId', isAuthenticated, likePostController);
 
 router.get('/dislikes/:postId', isAuthenticated, dislikePostController);
 
-router.get('/bookmarks/:postId', isAuthenticated,bookmarkPostController )
+router.get('/bookmark/:postId', isAuthenticated,bookmarkPostController )
 
 
 module.exports = router;

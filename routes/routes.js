@@ -7,6 +7,8 @@ const postRoute = require('./postRoute');
 
 const apiRoute = require('../api/routes/apiRoutes');
 
+const exploreController= require('./exploreRoute');
+
 const routes = [
     {
         path: '/auth',
@@ -30,6 +32,11 @@ const routes = [
         path: '/api',
         handler: apiRoute
     },
+    {
+        path: '/explorer',
+        handler: exploreController
+    },
+
 
 
     {
