@@ -1,16 +1,30 @@
 const Flash = require('../utils/Flash');
 const Profile = require('../models/Profile');
+const Comment = require('../models/Comment');
 const { validationResult } = require('express-validator')
 const errorFormatter = require('../utils/validationError');
 const User = require('../models/User');
 
 const dashBoardController = async (req, res, next) => {
   try {
-    let profile = await Profile.findOne({ user: req.user._id });
+    let profile = await Profile.findOne({ user: req.user._id }).populate({
+      path: 'posts',
+      select: 'title thumbnail'
+    })
+    .populate({
+      path: 'bookmarks',
+      select: 'title thumbnail'
+    })
+
     if (profile) {
+
+
       return res.render('pages/dashboard/dashboard', {
         title: 'My Dashboard',
         flashMessage: Flash.getMessage(req),
+        posts: profile.posts.reverse().slice(0, 3),
+        bookmarks: profile.bookmarks.reverse().slice(0, 3)
+        
       });
     }
 
@@ -180,10 +194,66 @@ const editProfilePostController = async (req, res, next) => {
   }
 };
 
+const bookmarksGetController = async (req, res, next) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user._id })
+      .populate({
+        path: 'bookmarks',
+        model: 'Post',
+        select: 'title thumbnail'
+      })
+      .populate({
+        path: 'user',
+        model: 'User',
+        select: 'username profilePics'
+      })
+
+    res.render('pages/dashboard/bookmarks', {
+      title: 'My Bookmarks',
+      flashMessage: Flash.getMessage(req),
+      posts: profile.bookmarks
+    })
+  } catch (e) {
+    next(e)
+  }
+}
+
+
+const  commentgetController = async (req, res, next) => {
+  try {
+    let profile = await Profile.findOne({ user: req.user._id })
+    let comments = await Comment.find({ post: { $in: profile.posts } })
+      .populate({
+        path: 'post',
+        select: 'title'
+      })
+      .populate({
+        path: 'user',
+        select: 'username profilePics'
+      })
+      .populate({
+        path: 'replies.user',
+        select: 'username profilePics'
+      })
+
+    // res.json(comments)
+    res.render('pages/dashboard/comments',{
+      title: 'My Recent Comments',
+      flashMessage: Flash.getMessage(req),
+      comments
+    })
+
+  } catch(e){
+    next
+  }
+}
+
 module.exports = {
   dashBoardController,
   createProfileGetController,
   createProfilePostController,
   editProfileGetController,
-  editProfilePostController
+  editProfilePostController,
+  bookmarksGetController,
+  commentgetController
 };
