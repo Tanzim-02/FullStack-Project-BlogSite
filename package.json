@@ -32,8 +32,9 @@
   "version": "1.0.0",
   "main": "app.js",
   "scripts": {
-    "start": "nodemon app.js",
-    "prod": "node app"
+    "start": "node app.js",
+    "dev": "nodemon app.js"
+    
   },
   "keywords": [],
   "author": "Tanzim",
@@ -44,5 +45,8 @@
   },
   "directories": {
     "lib": "lib"
+  },
+  "engines": {
+    "node": "20.1.0"
   }
 }
