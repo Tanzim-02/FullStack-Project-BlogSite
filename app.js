@@ -46,7 +46,7 @@ app.use ((error, req, res, next)=>{
 })
 
 
-//connection..........
+//connection......
 
 moongose.connect(MONGODB_URI, {
     useNewUrlParser: true
