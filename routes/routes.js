@@ -1,6 +1,6 @@
 const authRoute = require('./authRoute');
 const dashboard =require('./dashboardRoute');
-const homePage = require('./home');
+
 const playground = require('../playground/play')
 const uploadRoute = require('./uploadRoutes')
 const postRoute = require('./postRoute');
@@ -54,7 +54,9 @@ const routes = [
     },
     {
         path: '/',
-        handler: homePage
+        handler: (req, res) => {
+            res.redirect('/explorer')
+        }
     },
     
 

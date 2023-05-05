@@ -7,14 +7,14 @@
                 <div>
                     <img src="<%= author.profilePics  %>" class="img-thumbnail img-fluid">
                 </div>
-
+            
                 <div>
                     <p>Name: <strong> <%=author.profile.name  %> </strong></p>
-
+            
                     <p>Title: <strong> <%=author.profile.title  %> </strong></p>
-
+            
                     <p>Bio:  <%=author.profile.bio  %> </p>
-
+            
                     <div>
                         Social Links: 
                         <% if (author.profile.links.facebook) { %>
@@ -24,7 +24,7 @@
                             </a>
                         </span>
                         <% } %>
-
+            
                         <% if (author.profile.links.twitter) { %>
                         <span>
                             <a href="<%=author.profile.links.twitter  %>" target="_blank">
@@ -32,7 +32,7 @@
                             </a>
                         </span>
                         <% } %>
-
+            
                         <% if (author.profile.links.github) { %>
                         <span>
                             <a href="<%=author.profile.links.github  %>" target="_blank">
@@ -40,14 +40,37 @@
                             </a>
                         </span>
                         <% } %>
-
-
+            
+                        <div>
+                            <p>Post Created By This Author</p>
+                            <div class="row">
+                                <% if (author.profile.posts.length === 0) { %>
+                                    <div class="text-center text-muted">
+                                        <p>No Post Created Yet</p>
+                                    </div>
+                                <% } else { %>
+                                    <% for (let post of author.profile.posts.reverse()) { %>
+                                        <div class="card col-md-4">
+                                            <% if (post.thumbnail) { %>
+                                                <img src="<%= post.thumbnail %>" alt="<%= post.title %>" class="card-img-top mt-3">
+                                            <% } %>
+                                            <div class="card-body p-0">
+                                                <a href="/explorer/<%= post._id %>" style="color: #222222;">
+                                                    <p class="my-2"><%= post.title %></p>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    <% } %>
+                                <% } %>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+            
         </div>
     </div>
-    </div>
+</div>
 
 
 
