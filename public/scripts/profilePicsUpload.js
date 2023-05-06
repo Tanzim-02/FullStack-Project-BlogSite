@@ -1,6 +1,10 @@
 window.onload = function() {
     let baseCropping = $('#cropped-image').croppie({ 
+<<<<<<< HEAD
         viewport: {
+=======
+         viewport: {
+>>>>>>> d5456f5150038d13202e2698d9ae074795e51a8c
             width: 540,
             height: 480
         },
