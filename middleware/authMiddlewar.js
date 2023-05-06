@@ -1,16 +1,16 @@
 const User = require('../models/User')
 
-exports.bindUserWithRequest = ()=>{
-    return async (req, res, next)=>{
+exports.bindUserWithRequest = () => {
+    return async (req, res, next) => {
         if (!req.session.isLoggedIn) {
             return next();
-        }else {
+        } else {
             try {
-                let user=await User.findById(req.session.user._id);
-                req.user =user
-                next ()
+                let user = await User.findById(req.session.user._id);
+                req.user = user
+                next()
 
-            }catch (e) {
+            } catch (e) {
                 console.log(e);
                 next(e)
             }
@@ -18,15 +18,15 @@ exports.bindUserWithRequest = ()=>{
     }
 }
 
-exports.isAuthenticated = (req, res, next) =>{
+exports.isAuthenticated = (req, res, next) => {
     if (!req.session.isLoggedIn) {
         return res.redirect('/auth/login')
     }
     next()
-} 
+}
 
-exports.isUnAuthnticated = (req, res, next)=>{
-    if(req.session.isLoggedIn) {
+exports.isUnAuthnticated = (req, res, next) => {
+    if (req.session.isLoggedIn) {
         return res.redirect('/dashboard')
     }
     next()

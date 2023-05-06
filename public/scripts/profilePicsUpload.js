@@ -1,23 +1,19 @@
-window.onload = function() {
-    let baseCropping = $('#cropped-image').croppie({ 
-<<<<<<< HEAD
+window.onload = function () {
+    let baseCropping = $('#cropped-image').croppie({
         viewport: {
-=======
-         viewport: {
->>>>>>> d5456f5150038d13202e2698d9ae074795e51a8c
             width: 540,
             height: 480
         },
         boundary: {
             width: 600,
-            height:600
+            height: 600
         },
         showZoomer: true
     });
 
     function readableFile(file) {
         let reader = new FileReader();
-        reader.onload = function(event) {
+        reader.onload = function (event) {
             baseCropping.croppie('bind', {
                 url: event.target.result
             }).then(() => {
@@ -30,7 +26,7 @@ window.onload = function() {
         reader.readAsDataURL(file);
     }
 
-    $('#profilepicsFile').on('change', function(e) { 
+    $('#profilepicsFile').on('change', function (e) {
         if (this.files[0]) {
             readableFile(this.files[0]);
             $('#crop-modal').modal({
@@ -40,11 +36,11 @@ window.onload = function() {
         }
     });
 
-    $('#cancel-cropping').on('click', function() {
+    $('#cancel-cropping').on('click', function () {
         $('#crop-modal').modal('hide');
     });
 
-    $('#upload-image').on('click', function() {
+    $('#upload-image').on('click', function () {
         baseCropping.croppie('result', 'blob').then(blob => {
             let formData = new FormData();
             let file = document.getElementById('profilepicsFile').files[0];
@@ -67,7 +63,7 @@ window.onload = function() {
         });
     });
 
-    $('#removeProfilePics').on('click', function() {
+    $('#removeProfilePics').on('click', function () {
         let req = new Request('/uploads/profilePics', {
             method: 'DELETE',
             mode: 'cors',

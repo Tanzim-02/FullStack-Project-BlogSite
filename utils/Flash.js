@@ -1,14 +1,14 @@
 class Flash {
-    constructor (req) {
+    constructor(req) {
         this.req = req
-        this.success=  this.extractFlashMessage('success')
+        this.success = this.extractFlashMessage('success')
         this.failed = this.extractFlashMessage('failed')
     }
 
     extractFlashMessage(name) {
         let message = this.req.flash(name)
 
-        return message.length> 0 ? message[0] : false
+        return message.length > 0 ? message[0] : false
     }
     hasMessage() {
         return !this.success && !this.failed ? true : false
@@ -24,4 +24,4 @@ class Flash {
     }
 }
 
-module.exports =Flash
+module.exports = Flash

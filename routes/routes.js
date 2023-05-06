@@ -1,5 +1,5 @@
 const authRoute = require('./authRoute');
-const dashboard =require('./dashboardRoute');
+const dashboard = require('./dashboardRoute');
 
 const playground = require('../playground/play')
 const uploadRoute = require('./uploadRoutes')
@@ -7,7 +7,7 @@ const postRoute = require('./postRoute');
 
 const apiRoute = require('../api/routes/apiRoutes');
 
-const exploreController= require('./exploreRoute');
+const exploreController = require('./exploreRoute');
 
 const searchRoute = require('./searchRoute');
 const authorRoute = require('./authorRoutes');
@@ -28,7 +28,7 @@ const routes = [
 
     {
         path: '/post',
-        handler:postRoute
+        handler: postRoute
 
     },
     {
@@ -38,7 +38,7 @@ const routes = [
     {
         path: '/explorer',
         handler: exploreController
-    }, 
+    },
     {
         path: '/search',
         handler: searchRoute
@@ -58,13 +58,13 @@ const routes = [
             res.redirect('/explorer')
         }
     },
-    
+
 
 
 ]
 
 module.exports = app => {
-    routes.forEach(r=>{
+    routes.forEach(r => {
         if (r.path === '/') {
             app.get(r.path, r.handler)
         } else {

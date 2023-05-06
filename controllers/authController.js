@@ -24,7 +24,7 @@ exports.signupPostController = async (req, res, next) => {
 
     if (!errors.isEmpty()) {
       req.flash('failed', 'Please Check your Form..!')
-      
+
       return res.render('pages/auth/signup', {
         title: 'Create A New Account',
         error: errors.mapped(),
@@ -48,9 +48,9 @@ exports.signupPostController = async (req, res, next) => {
     });
 
     // Save the user to the database
-   await user.save();
+    await user.save();
 
-   req.flash('success', "User Created Successfully..")
+    req.flash('success', "User Created Successfully..")
 
 
     res.redirect('/auth/login');
@@ -74,7 +74,7 @@ exports.loginPostController = async (req, res, next) => {
 
     const errors = validationResult(req).formatWith(errorFOrmater);
 
-    
+
     if (!errors.isEmpty()) {
       req.flash('failed', 'Please Check your Form..!')
 
@@ -109,7 +109,7 @@ exports.loginPostController = async (req, res, next) => {
 
     req.session.save((err) => {
       if (err) {
-      
+
         return next(err);
       }
       req.flash('success', 'Successfully Logedin.....')
@@ -128,7 +128,7 @@ exports.logoutController = (req, res, next) => {
     }
 
     else {
-    return res.redirect('/auth/login');
+      return res.redirect('/auth/login');
     }
   });
 };
@@ -144,30 +144,30 @@ exports.changePasswordGetController = async (req, res, next) => {
 
 exports.changePasswordPostController = async (req, res, next) => {
   let { oldPassword, newPassword, confirmPassword } = req.body;
-  
+
   if (newPassword !== confirmPassword) {
     req.flash('failed', 'Password Does not Match..!')
     return res.redirect('/auth/change-password');
   }
 
   try {
-    let match= await bcrypt.compare(oldPassword, req.user.password)
-    
+    let match = await bcrypt.compare(oldPassword, req.user.password)
 
-  if (!match) {
-    req.flash('failed', 'Invalid Old Password..!')
+
+    if (!match) {
+      req.flash('failed', 'Invalid Old Password..!')
+      return res.redirect('/auth/change-password');
+    }
+
+    let hash = await bcrypt.hash(newPassword, 11);
+
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $set: { password: hash } }
+    )
+
+    req.flash('success', 'Password Updated Successfully..!')
     return res.redirect('/auth/change-password');
-  }
-
-  let hash = await bcrypt.hash(newPassword, 11);
-
-  await User.findOneAndUpdate(
-    { _id: req.user._id },
-    { $set: { password: hash } }
-  )
-
-  req.flash('success', 'Password Updated Successfully..!')
-  return res.redirect('/auth/change-password');
 
   } catch (e) {
     next(e)

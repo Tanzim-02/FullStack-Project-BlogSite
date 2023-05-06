@@ -47,16 +47,16 @@ exports.exploreGetController = async (req, res, next) => {
 
     let filter = req.query.filter || 'latest';
 
-    let {order, filterObj} = generateFilterObject(filter.toLowerCase());
+    let { order, filterObj } = generateFilterObject(filter.toLowerCase());
     let currentPage = parseInt(req.query.page) || 1;
     let itemPerPage = 5;
 
-    try{
+    try {
         let posts = await Post.find(filterObj)
-        .populate('author', 'username')
-        .sort(order === 1 ? '-createdAt' : 'createdAt')
-        .skip((itemPerPage * currentPage) - itemPerPage)
-        .limit(itemPerPage);
+            .populate('author', 'username')
+            .sort(order === 1 ? '-createdAt' : 'createdAt')
+            .skip((itemPerPage * currentPage) - itemPerPage)
+            .limit(itemPerPage);
 
         let totalPost = await Post.countDocuments();
         let totalPage = totalPost / itemPerPage;
@@ -64,50 +64,51 @@ exports.exploreGetController = async (req, res, next) => {
         let bookmarks = [];
 
         if (req.user) {
-            let profile = await Profile.findOne({user: req.user._id});
+            let profile = await Profile.findOne({ user: req.user._id });
             if (profile) {
                 bookmarks = profile.bookmarks;
             }
         }
 
-        res.render ('pages/explorer/explore.ejs', 
-    {title: 'Explore All Post',
-    filter,
-    flashMessage: Flash.getMessage(req),
-    posts,
-    itemPerPage,
-    currentPage,
-    totalPage,
-    bookmarks
-})
+        res.render('pages/explorer/explore.ejs',
+            {
+                title: 'Explore All Post',
+                filter,
+                flashMessage: Flash.getMessage(req),
+                posts,
+                itemPerPage,
+                currentPage,
+                totalPage,
+                bookmarks
+            })
 
 
     } catch (e) {
         next(e)
     }
-    
+
 }
 
 exports.singlePostGetController = async (req, res, next) => {
     let { postId } = req.params;
     try {
         let post = await Post.findById(postId)
-        .populate('author', 'username profilePics')
-        .populate({
-            path: 'comments',
-            populate: {
-                path: 'user',
-                select: 'username profilePics'
-            }
-        })
-        .populate({
-            path: 'comments',
-            populate: {
-                path: 'replies.user',
-                select: 'username profilePics'
-            }
-        })
-        
+            .populate('author', 'username profilePics')
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'user',
+                    select: 'username profilePics'
+                }
+            })
+            .populate({
+                path: 'comments',
+                populate: {
+                    path: 'replies.user',
+                    select: 'username profilePics'
+                }
+            })
+
 
         if (!post) {
             let error = new Error('404 Page Not Found');
@@ -118,7 +119,7 @@ exports.singlePostGetController = async (req, res, next) => {
         let bookmarks = [];
 
         if (req.user) {
-            let profile = await Profile.findOne({user: req.user._id});
+            let profile = await Profile.findOne({ user: req.user._id });
             if (profile) {
                 bookmarks = profile.bookmarks;
             }

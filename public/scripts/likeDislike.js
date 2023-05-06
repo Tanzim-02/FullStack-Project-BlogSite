@@ -1,4 +1,4 @@
-window.onload = function() {
+window.onload = function () {
     const likeBtn = document.getElementById('likeBtn');
     const dislikeBtn = document.getElementById('dislikeBtn');
 
@@ -16,7 +16,7 @@ window.onload = function() {
         return fetch(req);
     }
 
-    likeBtn.addEventListener('click', function(e) {
+    likeBtn.addEventListener('click', function (e) {
         let postId = likeBtn.dataset.post;
         reqLikeDislike('likes', postId)
             .then(res => res.json())
@@ -34,7 +34,7 @@ window.onload = function() {
             });
     });
 
-    dislikeBtn.addEventListener('click', function(e) {
+    dislikeBtn.addEventListener('click', function (e) {
         let postId = dislikeBtn.dataset.post;
         reqLikeDislike('dislikes', postId)
             .then(res => res.json())
@@ -53,4 +53,3 @@ window.onload = function() {
             });
     });
 };
- 

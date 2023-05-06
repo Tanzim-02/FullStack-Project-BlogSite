@@ -47,6 +47,6 @@ const postSchema = new Schema({
 
 const Post = model('Post', postSchema);
 
-postSchema.index({ title: 'text', body: 'text', tags: 'text' }, { weights: { title: 5, body: 3, tags: 1 }});
+postSchema.index({ title: 'text', body: 'text', tags: 'text' }, { weights: { title: 5, body: 3, tags: 1 } });
 
 module.exports = Post;

@@ -1,8 +1,8 @@
-window.onload = function() {
+window.onload = function () {
   const bookmarks = document.getElementsByClassName('bookmark');
   [...bookmarks].forEach((item) => {
     item.style.cursor = 'pointer';
-    item.addEventListener('click', function(e) {
+    item.addEventListener('click', function (e) {
       let target = e.target.parentElement;
 
       let headers = new Headers();

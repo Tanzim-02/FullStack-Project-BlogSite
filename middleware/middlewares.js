@@ -3,28 +3,28 @@ const morgan = require('morgan');
 const session = require('express-session');
 var MongoDBStore = require('connect-mongodb-session')(session);
 const flash = require('connect-flash');
-const config= require('config')
+const config = require('config')
 
-const {bindUserWithRequest} = require('../middleware/authMiddlewar')
+const { bindUserWithRequest } = require('../middleware/authMiddlewar')
 
 const setLocals = require('../middleware/setLocacal');
 
-const MONGODB_URI=process.env.MONGODB_URI_URL;
+const MONGODB_URI = process.env.MONGODB_URI_URL;
 
 
 const store = new MongoDBStore({
     uri: MONGODB_URI,
     collection: 'Sessions',
-    expires: 1000*60*60*48
+    expires: 1000 * 60 * 60 * 48
 });
 
 
 
-const middleware=[
+const middleware = [
     morgan('dev'),
     express.static('public'),
     express.json(),
-    express.urlencoded({extended:true}),
+    express.urlencoded({ extended: true }),
     session({
         secret: process.env.SEECRET_KEY || 'SECRET',
         resave: false,
@@ -42,8 +42,8 @@ const middleware=[
 
 
 
-module.exports = app =>{
-    middleware.forEach(m=>{
+module.exports = app => {
+    middleware.forEach(m => {
         app.use(m)
     })
 }

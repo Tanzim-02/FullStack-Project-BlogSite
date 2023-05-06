@@ -16,7 +16,7 @@ const profileSchema = new Schema({
         type: String,
         trim: true,
         required: true,
-        maxlength: 100 
+        maxlength: 100
     },
     bio: {
         type: String,
@@ -26,7 +26,7 @@ const profileSchema = new Schema({
     },
     profilePics: {
         type: String,
-        
+
     },
     links: {
         website: String,

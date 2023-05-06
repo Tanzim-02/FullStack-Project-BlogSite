@@ -2,11 +2,6 @@
 node_modules
 .env
 
-<<<<<<< HEAD
 
 /public/uploads/*
-!/public/uploads/.gitkeep
-=======
-/public/uploads/*
 !/public/upload/.gitkeep
->>>>>>> aa5fb877d8045b1defd64f10f1dffb6e57657880

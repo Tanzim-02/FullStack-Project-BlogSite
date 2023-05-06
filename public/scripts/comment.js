@@ -1,7 +1,7 @@
-window.onload = function() {
+window.onload = function () {
     const commentHolder = document.getElementById('comment-holder');
 
-    commentHolder.addEventListener('keypress', function(e) {
+    commentHolder.addEventListener('keypress', function (e) {
         if (commentHolder.hasChildNodes(e.target)) {
             if (e.key === 'Enter') {
                 let commentId = e.target.dataset.comment;

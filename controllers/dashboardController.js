@@ -11,10 +11,10 @@ const dashBoardController = async (req, res, next) => {
       path: 'posts',
       select: 'title thumbnail'
     })
-    .populate({
-      path: 'bookmarks',
-      select: 'title thumbnail'
-    })
+      .populate({
+        path: 'bookmarks',
+        select: 'title thumbnail'
+      })
 
     if (profile) {
 
@@ -24,7 +24,7 @@ const dashBoardController = async (req, res, next) => {
         flashMessage: Flash.getMessage(req),
         posts: profile.posts.reverse().slice(0, 3),
         bookmarks: profile.bookmarks.reverse().slice(0, 3)
-        
+
       });
     }
 
@@ -129,7 +129,7 @@ const editProfileGetController = async (req, res, next) => {
 
 const editProfilePostController = async (req, res, next) => {
   let errors = validationResult(req).formatWith(errorFormatter);
-  
+
   let {
     name,
     title,
@@ -213,7 +213,7 @@ const bookmarksGetController = async (req, res, next) => {
 }
 
 
-const  commentgetController = async (req, res, next) => {
+const commentgetController = async (req, res, next) => {
   try {
     let profile = await Profile.findOne({ user: req.user._id })
     let comments = await Comment.find({ post: { $in: profile.posts } })
@@ -231,13 +231,13 @@ const  commentgetController = async (req, res, next) => {
       })
 
     // res.json(comments)
-    res.render('pages/dashboard/comments',{
+    res.render('pages/dashboard/comments', {
       title: 'My Recent Comments',
       flashMessage: Flash.getMessage(req),
       comments
     })
 
-  } catch(e){
+  } catch (e) {
     next
   }
 }

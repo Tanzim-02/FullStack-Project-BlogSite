@@ -3,11 +3,11 @@ const Flash = require('../utils/Flash');
 const readingTime = require('reading-time');
 const Post = require('../models/Post');
 const Profile = require('../models/Profile');
-const {validationResult} = require('express-validator');
+const { validationResult } = require('express-validator');
 const errorFormatter = require('../utils/validationError');
 
-const createPostGetController= (req, res, next)=>{
-    res.render('pages/dashboard/post/createPost',{
+const createPostGetController = (req, res, next) => {
+    res.render('pages/dashboard/post/createPost', {
         title: 'Create A new Post',
         error: {},
         flashMessage: Flash.getMessage(req),
@@ -15,7 +15,7 @@ const createPostGetController= (req, res, next)=>{
     })
 
 }
-const createPostPostController =async (req, res, next) => {
+const createPostPostController = async (req, res, next) => {
     let { title, body, tags } = req.body; // Add tags variable
 
     let errors = validationResult(req).formatWith(errorFormatter);
@@ -28,12 +28,12 @@ const createPostPostController =async (req, res, next) => {
             value: {
                 title,
                 body,
-                tags 
+                tags
             }
         });
     }
 
-    if(tags){
+    if (tags) {
         tags = tags.split(',');
         tags = tags.map(t => t.trim());
     }
@@ -50,7 +50,7 @@ const createPostPostController =async (req, res, next) => {
         likes: [],
         dislikes: [],
         comments: []
-        
+
     });
 
     if (req.file) {
@@ -73,27 +73,27 @@ const createPostPostController =async (req, res, next) => {
 
 
 const editPostGetController = async (req, res, next) => {
-let postId = req.params.postId;
+    let postId = req.params.postId;
 
 
-try {
-    let post = await Post.findOne({ author: req.user._id, _id: postId });
-    if (!post) {
-        let error = new Error(' 404 Page Not Found ');
-        error.status = 404;
-        throw error;
+    try {
+        let post = await Post.findOne({ author: req.user._id, _id: postId });
+        if (!post) {
+            let error = new Error(' 404 Page Not Found ');
+            error.status = 404;
+            throw error;
+        }
+
+        res.render('pages/dashboard/post/editPost', {
+            title: 'Edit Your Post',
+            error: {},
+            flashMessage: Flash.getMessage(req),
+            post
+        });
     }
-
-    res.render('pages/dashboard/post/editPost', {
-        title: 'Edit Your Post',
-        error: {},
-        flashMessage: Flash.getMessage(req),
-        post
-    });
-} 
-catch (e) {
-    next(e);
-}
+    catch (e) {
+        next(e);
+    }
 }
 
 
@@ -103,7 +103,7 @@ const editPostPostController = async (req, res, next) => {
 
     let errors = validationResult(req).formatWith(errorFormatter);
 
-    try{
+    try {
         let post = await Post.findOne({ author: req.user._id, _id: postId });
 
         if (!post) {
@@ -120,8 +120,8 @@ const editPostPostController = async (req, res, next) => {
                 post
             });
         }
-    
-        if(tags){
+
+        if (tags) {
             tags = tags.split(',');
             tags = tags.map(t => t.trim());
         }
@@ -141,7 +141,7 @@ const editPostPostController = async (req, res, next) => {
         return res.redirect(`/post/edit/${post._id}`);
         // return res.redirect(`/post/edit/${editedPost._id}`);
 
-    }catch(e){
+    } catch (e) {
         next(e);
     }
 }
@@ -149,10 +149,10 @@ const editPostPostController = async (req, res, next) => {
 const DeletePostGetController = async (req, res, next) => {
     let { postId } = req.params;
 
-    try{
+    try {
         let post = await Post.findOne({ author: req.user._id, _id: postId });
 
-        if(!post) {
+        if (!post) {
             let error = new Error(' 404 Page Not Found ');
             error.status = 404;
             throw error;
@@ -162,12 +162,12 @@ const DeletePostGetController = async (req, res, next) => {
                 { user: req.user._id },
                 { $pull: { 'posts': post._id } }
             );
-    
+
             req.flash('success', 'Post Delete Successfully');
             return res.redirect('/post');
         }
 
-    }catch(e){
+    } catch (e) {
         next(e);
     }
 }
@@ -178,20 +178,21 @@ const DeletePostPostController = async (req, res, next) => {
 
 
 const postsGetController = async (req, res, next) => {
-try {
-    let posts = await Post.find({ author: req.user._id });
+    try {
+        let posts = await Post.find({ author: req.user._id });
 
-    res.render('pages/dashboard/post/posts',{
-        title: 'My All Posts',
-        posts,
-        flashMessage: Flash.getMessage(req),
-    } )
+        res.render('pages/dashboard/post/posts', {
+            title: 'My All Posts',
+            posts,
+            flashMessage: Flash.getMessage(req),
+        })
 
 
 
-}catch (e) {
-    next(e);
-} }
+    } catch (e) {
+        next(e);
+    }
+}
 
 module.exports = {
     createPostGetController,

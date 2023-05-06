@@ -24,13 +24,13 @@ const uploadProfilePics = async (req, res) => {
                     $set: { profilePics }
                 })
 
-                if(oldProfilePics !== '/uploads/default.png') {
-                    fs.unlink(`public${oldProfilePics}`, err =>{
-                        if(err) {
-                            console.log(err);
-                        }
-                    })
-                }
+            if (oldProfilePics !== '/uploads/default.png') {
+                fs.unlink(`public${oldProfilePics}`, err => {
+                    if (err) {
+                        console.log(err);
+                    }
+                })
+            }
 
             res.status(200).json({
                 profilePics
