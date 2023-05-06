@@ -128,8 +128,8 @@ const editProfileGetController = async (req, res, next) => {
 };
 
 const editProfilePostController = async (req, res, next) => {
-  let errors = validationResult(req).formatWith(errorFormatter)
-
+  let errors = validationResult(req).formatWith(errorFormatter);
+  
   let {
     name,
     title,
@@ -137,62 +137,56 @@ const editProfilePostController = async (req, res, next) => {
     facebook,
     twitter,
     github
-  } = req.body
+  } = req.body;
 
   if (!errors.isEmpty()) {
-    return res.render('pages/dashboard/create-profile', {
-      title: 'Create Your Profile ',
+    return res.render('pages/dashboard/edit-profile', {
+      title: 'Edit Profile',
       flashMessage: Flash.getMessage(req),
       error: errors.mapped(),
       profile: {
         name,
         title,
-
         bio,
         links: {
-          facebook,
-          twitter,
-          github
+          facebook: facebook || '',
+          twitter: twitter || '',
+          github: github || ''
         }
-
       }
     });
   }
 
-
-
   try {
-    let profile = new Profile({
-      name,
-      title,
-      bio,
+    let profile = await Profile.findOne({ user: req.user._id });
+    if (!profile) {
+      res.redirect('/dashboard/create-profile');
+    }
 
-      links: {
-        facebook: facebook || '',
-        twitter: twitter || '',
-        github: github || ''
-      }
-    })
+    profile.name = name;
+    profile.title = title;
+    profile.bio = bio;
+    profile.links = {
+      facebook: facebook || '',
+      twitter: twitter || '',
+      github: github || ''
+    };
 
-    let updatedProfile = await Profile.findOneAndUpdate(
-      { user: req.user._id },
-      { $set: profile },
-      { new: true }
-    )
+    let updatedProfile = await profile.save();
 
-    // console.log(`Update-------`);
-      req.flash('success', 'Profile Updated Successfully')
+    req.flash('success', 'Profile Updated Successfully');
     res.render('pages/dashboard/edit-profile', {
-      title: "Edit Profile",
+      title: 'Edit Profile',
       error: {},
       flashMessage: Flash.getMessage(req),
       profile: updatedProfile
-    })
+    });
 
   } catch (e) {
-    next(e)
+    next(e);
   }
 };
+
 
 const bookmarksGetController = async (req, res, next) => {
   try {

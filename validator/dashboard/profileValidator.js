@@ -2,15 +2,16 @@ const { body }= require('express-validator');
 const User =require('../../models/User');
 const  validator = require('validator')
 
-const urlValidator = value=> {
-    if(value) {
-        if(!validator.isURL(value)) {
-            throw new Error ('Please Provide Valid URL')
-        }
+const urlValidator = value => {
+    
+    if (value) {
+      if (!validator.isURL(value)) {
+        throw new Error('Please provide a valid URL');
+      }
     }
     return true;
-   
-}
+  };
+  
 
 module.exports = [
     body('name')
@@ -23,16 +24,17 @@ module.exports = [
     body('bio')
     .not().isEmpty().withMessage('Bio Can Not Be Empty').isLength({max:500}).withMessage('Bio Can not Be More Than 500 Chars').trim(),
 
-    body('website')
-    .custom(urlValidator),
 
 
     body('facebook')
+    .trim()
     .custom(urlValidator),
 
     body('twitter')
+    .trim()
     .custom(urlValidator),
     body('github')
+    .trim()
     .custom(urlValidator),
     
 ]

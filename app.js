@@ -1,6 +1,7 @@
 const express = require('express');
 const moongose = require('mongoose');
 const app = express();
+const { MongoClient, ServerApiVersion } = require('mongodb');
 const dotenv= require('dotenv');
 const PORT = process.env.PORT || 5000;
 
@@ -9,12 +10,13 @@ dotenv.config()
 const MONGODB_URI=process.env.MONGODB_URI_URL;
 
 
+
 const setMiddleware = require('./middleware/middlewares')
 const setRoutes = require('./routes/routes');
 
 //setup view engine
-app.set('view engine', 'ejs');
-app.set('views', 'views');
+app.set('view engine', 'ejs'); 
+app.set('views', 'views');  
 
 
 //useing MiddlleWare from MiddleWare Directory
@@ -57,8 +59,13 @@ moongose.connect(MONGODB_URI, {
     
 })
 .catch(e=>{
+    
     console.log(e);
 })
+
+
+
+
 
 
 

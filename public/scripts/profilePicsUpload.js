@@ -1,12 +1,12 @@
 window.onload = function() {
     let baseCropping = $('#cropped-image').croppie({ 
         viewport: {
-            width: 200,
-            height: 200
+            width: 540,
+            height: 480
         },
         boundary: {
-            width: 300,
-            height: 300
+            width: 600,
+            height:600
         },
         showZoomer: true
     });
