@@ -14,12 +14,12 @@ This repository contains the code for BlogSite, a powerful blogging platform bui
 
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/TanzimHossain2/FullStack-Project-BlogSite.git
    ```
 
 2. Navigate to the project directory:
    ```bash
-   cd BlogSite
+   cd FullStack-Project-BlogSite
    ```
 
 3. Install the dependencies:
